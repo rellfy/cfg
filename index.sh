@@ -26,9 +26,11 @@ preconfig() {
 install() {
   # Fundamentals
   i "base-devel"
+  i "wget"
   i "openssh"
   i "vim"
   i "git"
+  i "fuse" # Run AppImages.
   # Graphics
   i "nvidia"
   i "xorg-server"
@@ -38,6 +40,14 @@ install() {
   i "plasma"
   i "konsole"
   i "spectacle" # Screenshots.
+  i "libgtk-3.so"
+  # Generic dependencies
+  i "lib32-gcc-libs"
+  i "libpng12"
+  i "libpqxx"
+  i "npm"
+  i "python2"
+  i_aur "gconf" "gconf"
   # Applications
   i "gimp"
   if !(is_installed "snap"); then
@@ -70,5 +80,4 @@ preconfig
 install
 install_snaps
 postconfig
-
 
