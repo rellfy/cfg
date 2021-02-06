@@ -2,12 +2,23 @@
 i() {
   sudo pacman -S --noconfirm --needed $1
 }
+is_installed() {
+  if !(command -v $1 &> /dev/null); then
+    return 1;
+  fi
+  return 0;
+}
 i_aur() {
+  if (is_installed $2); then return 1; fi;
   git clone https://aur.archlinux.org/$1.git
   cd $1
   makepkg -si
   cd ..
   rm -rf $1
+}
+i_snap() {
+  if (is_installed $1); then return 1; fi;
+  sudo snap install $1 $2
 }
 preconfig() {
   sudo dhcpcd
@@ -29,15 +40,21 @@ install() {
   i "spectacle" # Screenshots.
   # Applications
   i "gimp"
-  # TODO only install snapd once
-  #i_aur "snapd"
-  #systemctl enable --now snapd.socket
-  #ln -s /var/lib/snapd/snap /snap
+  if !(is_installed "snap"); then
+    i_aur "snapd" "snap"
+    sudo systemctl enable --now snapd.socket
+    sudo ln -s /var/lib/snapd/snap /snap
+  fi
 }
 install_snaps() {
-  snap install chromium
-  snap install discord
-  snap install spotify
+  # Basics
+  i_snap "chromium"
+  i_snap "discord"
+  i_snap "spotify"
+  # Development
+  i_snap "rustup" "--classic && sudo rustup install stable"
+  i_snap "rider" "--classic"
+  i_snap "clion" "--classic"
 }
 postconfig() {
   sudo systemctl enable sddm.service
@@ -47,7 +64,7 @@ postconfig() {
     exec startx
   fi
   # Start Snapd
-  systemctl start snapd.service
+  sudo systemctl start snapd.service
 }
 preconfig
 install
