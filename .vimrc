@@ -5,7 +5,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
-let g:sonokai_style = 'espresso'
+let g:sonokai_style = 'default'
 color sonokai
 set termguicolors
 set nospell
