@@ -24,6 +24,8 @@ install() {
   i "kernel-devel"
   i "npm"
   i "snapd"
+	# Terminal
+	i "lsd"
   sudo systemctl enable --now snapd.socket
   sudo ln -s /var/lib/snapd/snap /snap
 }
