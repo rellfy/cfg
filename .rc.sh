@@ -1,3 +1,3 @@
 #!/bin/bash
 export GPG_TTY=$(tty)
-alias ll="ls -lah --color=auto"
+alias ll="lsd -lah --color=auto"
